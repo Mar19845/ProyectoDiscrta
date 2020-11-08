@@ -46,6 +46,18 @@ def primo(num): #funcion para verificar Num primos
         
     return True
 
+#funcion que encripta un mensaje
+def encriptar():
+    return 1
+
+#funcion que desencripta el mensaje
+def desencriptar():
+    return 0
+
+# funcion que imprime las llaves publicas y privadas
+def verKeys():
+    return 2
+
 print ("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n")
 print ("x     Bienvenido a nuestro proyecto                                                                 x")
 print ("x     A continuacion se le pediran dos valores primos para generar su clave publica y privada       x\n")
@@ -72,9 +84,9 @@ print ("a iniciado satisfactoriamente los dos valores\n")
  
 while not salir:
  
-    print ("1. Opcion 1")
-    print ("2. Opcion 2")
-    print ("3. Opcion 3")
+    print ("1. Encriptar")
+    print ("2. Desencriptar")
+    print ("3. Ver llaves publicas y privadas")
     print ("4. Salir")  
     print ("Elige una opcion")
  
