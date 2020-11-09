@@ -53,30 +53,21 @@ def mcd(a, b):
         a, b = b, a % b
     return a
 
+#funcion para el inverso multiplicativo
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
 #algoritmo de euclides extendido para encontrar el inverso multiplicativo de dos numeros
 def inverso_multi(e, phi):
-    d = 0
-    x1 = 0
-    x2 = 1
-    y1 = 1
-    temp_phi = phi
-    
-    while e > 0:
-        temp1 = temp_phi/e
-        temp2 = temp_phi - temp1 * e
-        temp_phi = e
-        e = temp2
-        
-        x = x2- temp1* x1
-        y = d - temp1 * y1
-        
-        x2 = x1
-        x1 = x
-        d = y1
-        y1 = y
-    
-    if temp_phi == 1:
-        return d + phi
+    g, x, y = egcd(e, phi)
+    if g != 1:
+        raise Exception('modular inverse does not exist')
+    else:
+        return x % phi
 
 #generar llaves publicas y privadas
 def keypair(p, q):
@@ -109,12 +100,22 @@ def keypair(p, q):
     return ((e, n), (d, n))
 
 #funcion que encripta un mensaje
-def encriptar():
-    return 1
+def encriptar(pk, mensaje):
+    #desempacar las llaves en componentes
+    key, n = pk
+    #convertir cada letra del mensaje a numeros basados en using a^b mod m
+    cipher = [(ord(char) ** key) % n for char in mensaje]
+    #regresar un array de bytes
+    return cipher
 
 #funcion que desencripta el mensaje
-def desencriptar():
-    return 0
+def desencriptar(pk, ciphertext):
+    #desempacar las llaves en componentes
+    key, n = pk
+    # generar el mensaje baso en el mensaje cifrado y la llave usando a^b mod m
+    plain = [chr((char ** key) % n) for char in ciphertext]
+    #regresar el array de bytes como una string
+    return ''.join(plain)
 
 # funcion que imprime las llaves publicas y privadas
 def verKeys():
@@ -146,11 +147,10 @@ print ("a iniciado satisfactoriamente los dos valores\n")
 
 
 publica, privada = keypair(Val1,Val2)
-
+mensaje = ""
+mensajeEncrip = ""
+msjDescrip =""
 print("")
-print(privada)
-print("")
-
 while not salir:
  
     print ("1. Encriptar")
@@ -162,10 +162,16 @@ while not salir:
     opcion = pedirNumeroEntero()
  
     if opcion == 1:
-        print ("Opcion 1")
-        gcd()
+        mensaje = input("Ingrese el mensaje que desee encriptar: ")
+        mensajeEncrip = encriptar(privada,mensaje)
+        print("Su mensaje encriptado es: ")
+        print (''.join(map(lambda x: str(x), mensajeEncrip)))
+        print("")
     elif opcion == 2:
-        print ("Opcion 2")
+        print("El mensaje desencriptado es: ")
+        msjDescrip = desencriptar(publica,mensajeEncrip)
+        print(msjDescrip)
+        print("")      
     elif opcion == 3:
         print("Opcion 3")
     elif opcion == 4:
