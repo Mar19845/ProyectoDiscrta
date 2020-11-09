@@ -14,6 +14,7 @@
 import sys
 from decimal import Decimal
 import math
+import random
 import msvcrt # getch()
 import os # clear console
 import re # expressions regulars
@@ -77,6 +78,36 @@ def inverso_multi(e, phi):
     if temp_phi == 1:
         return d + phi
 
+#generar llaves publicas y privadas
+def keypair(p, q):
+    if not (primo(p) and primo(q)):
+        raise ValueError('Los numeros tienen que ser numeros primos.')
+    elif p == q:
+        raise ValueError('"p" y "q" no pueden ser iguales')
+    #n = pq
+    n = p * q
+
+    #Phi is the totient of n
+    phi = (p-1) * (q-1)
+
+    #Choose an integer e such that e and phi(n) are coprime
+    e = random.randrange(1, phi)
+
+    #usar el algoritm de euclides para verificar que e y phi(n) son coprimos
+    g = mcd(e, phi)
+    while g != 1:
+        e = random.randrange(1, phi)
+        g = mcd(e, phi)
+
+    
+    #encontrar el inverso multiplicativo para generar las claves privadas
+    d = inverso_multi(e, phi)
+    
+    
+    #regesar las claves publicas y privadas
+    #clave publica (e,n) y clave privada (d,n)
+    return ((e, n), (d, n))
+
 #funcion que encripta un mensaje
 def encriptar():
     return 1
@@ -112,7 +143,14 @@ else:
     sys.exit() 
 
 print ("a iniciado satisfactoriamente los dos valores\n")
- 
+
+
+publica, privada = keypair(Val1,Val2)
+
+print("")
+print(privada)
+print("")
+
 while not salir:
  
     print ("1. Encriptar")
