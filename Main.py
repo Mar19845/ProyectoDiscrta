@@ -145,12 +145,21 @@ else:
 
 print ("a iniciado satisfactoriamente los dos valores\n")
 
-
+#generar llaves publicas y privadas
 publica, privada = keypair(Val1,Val2)
+#imprimir llaves publicas y privadas
+print("La llave publica es: ")
+print(publica)
+print("")
+print("La llave privada es: ")
+print(privada)
+
+#variables a utilizar
 mensaje = ""
 mensajeEncrip = ""
 msjDescrip =""
 print("")
+#menu
 while not salir:
  
     print ("1. Encriptar")
@@ -162,18 +171,62 @@ while not salir:
     opcion = pedirNumeroEntero()
  
     if opcion == 1:
+        print("")
         mensaje = input("Ingrese el mensaje que desee encriptar: ")
         mensajeEncrip = encriptar(privada,mensaje)
         print("Su mensaje encriptado es: ")
         print (''.join(map(lambda x: str(x), mensajeEncrip)))
         print("")
     elif opcion == 2:
+        print("")
         print("El mensaje desencriptado es: ")
         msjDescrip = desencriptar(publica,mensajeEncrip)
         print(msjDescrip)
         print("")      
     elif opcion == 3:
-        print("Opcion 3")
+        print("")
+        print("La llave publica es: ")
+        print(publica)
+        print("")
+        print("La llave privada es: ")
+        print(privada)
+        print("")
+        print("")
+        print("Desea generar nuevas llaves??")
+        print("1. Si")
+        print("2. No")
+        print("")
+        a = pedirNumeroEntero()
+        if a == 2:
+            print("Entendido")
+            print("")
+        elif a == 1:
+            #pedir p y q para generar nuevas llaves 
+            b = pedirNumeroEntero()
+            if primo(b) == True:
+                Val1 = b;
+                print(Val1)
+            else:
+                print ("El numero (a) no es primo, vuelva a iniciar el programa\n")
+                sys.exit()
+            
+            c = pedirNumeroEntero()
+            if primo(c) == True:
+                Val2 = c;
+                print(Val2)
+            else:
+                print ("El numero (b) no es primo, vuelva a iniciar el programa\n")
+                sys.exit()
+            
+            #volver a generar las llaves privadas y publicas
+            publica, privada = keypair(Val1,Val2)
+            print("")
+            print("La nueva llave publica es: ")
+            print(publica)
+            print("")
+            print("La nueva llave privada es: ")
+            print(privada)
+            print("")
     elif opcion == 4:
         salir = True
     else:
