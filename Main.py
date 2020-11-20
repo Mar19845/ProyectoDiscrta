@@ -77,24 +77,17 @@ def keypair(p, q):
         raise ValueError('"p" y "q" no pueden ser iguales')
     #n = pq
     n = p * q
-
     #Phi is the totient of n
     phi = (p-1) * (q-1)
-
     #Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
-
     #usar el algoritm de euclides para verificar que e y phi(n) son coprimos
     g = mcd(e, phi)
     while g != 1:
         e = random.randrange(1, phi)
         g = mcd(e, phi)
-
-    
     #encontrar el inverso multiplicativo para generar las claves privadas
     d = inverso_multi(e, phi)
-    
-    
     #regesar las claves publicas y privadas
     #clave publica (e,n) y clave privada (d,n)
     return ((e, n), (d, n))
